@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "sdkVersion": "31.0.0",
+    "orientation": "portrait",
+    "scheme": "tg",
+    "name": "TGI Barometer",
+    "version": "1.0.9",
+    "slug": "tg-dev",
+    "icon": "./src/media/images/Icon.png",
+    "ios": {
+      "bundleIdentifier": "dn.tg.co.nedia",
+      "supportsTablet": true,
+      "icon": "./src/media/images/icn.png"
+    },
+    "android": {
+      "package": "dn.tg.co.nedia",
+      "versionCode": 3
+    },
+    "description": "TGI Barometer"
+  }
+}
