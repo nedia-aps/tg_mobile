@@ -48,10 +48,22 @@ export const getDates = (startDate, endDate, data) => {
   return objs;
 };
 export const formateDate = (d) => {
-  const newDate = new Date(d);
-  const date = `${
-    months[newDate.getMonth()]
-  } ${newDate.getDate()}, ${newDate.getFullYear()}`;
-  return date;
+  let offset = 0;
+  if (typeof d === 'string' || d instanceof String) {
+    offset = new Date().getTimezoneOffset();
+  }
+  let fd = new Date(d);
+  fd = new Date(fd.getTime() + offset * 60000);
+  let dd = fd.getDate();
+  let mm = fd.getMonth() + 1; // January is 0!
+  const yyyy = fd.getFullYear();
+  if (dd < 10) {
+    dd = `0${dd}`;
+  }
+  if (mm < 10) {
+    mm = `0${mm}`;
+  }
+  return `${dd}/${mm}/${yyyy}`;
 };
+
 export const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));

@@ -18,7 +18,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Modal from 'react-native-modal';
 import * as Classes from '../actions/Classes';
 import { colors } from '../utils';
@@ -26,6 +26,14 @@ import * as CommonFunctions from '../utils/CommonFunctions';
 import bg from '../media/images/bg.png';
 import { BottomFooter } from '../components/common';
 
+LocaleConfig.locales['da'] = {
+  monthNames: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
+  monthNamesShort: ['Jan.','Feb.','Mar.','Apr.','Maj.','Jun.','Jul.','Aug.','Sep.','Okt.','Nov.','Dec.'],
+  dayNames: ['Sunday', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
+  dayNamesShort: ['Sun.','Man.','Tir.','Ons.','Tor.','Fre.','Lør.']
+};
+ 
+LocaleConfig.defaultLocale = 'da';
 
 const deviceWin = Dimensions.get('window');
 const stylesContainers = {
@@ -59,8 +67,7 @@ class LogForm extends Component {
       if (response !== null) {
         const user = JSON.parse(response);
         this.setState({ authId: user.authId });
-        const date = `${dat.getFullYear()}-${1 +
-          Number.parseInt(dat.getMonth(), 10)}-${dat.getDate()}`;
+        const date = CommonFunctions.formateDate(dat);
         this.loadLastLog(date);
       }
     });
@@ -205,7 +212,7 @@ class LogForm extends Component {
   loadLastLog(dat) {
     const { seletedClass, action } = this.props;
     const { authId } = this.state;
-    debugger;
+    // debugger;
     action.loadLastLogged({
       authId,
       classId: seletedClass.classId,
