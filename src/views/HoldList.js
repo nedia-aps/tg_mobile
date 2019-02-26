@@ -42,10 +42,6 @@ class HoldList extends Component {
       .catch(() => {});
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('===== nextprops: ', nextProps);
-  }
-
   logout() {
     SecureStore.deleteItemAsync('userInfo');
     Actions.Login({ type: 'reset' });
