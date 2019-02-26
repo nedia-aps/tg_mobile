@@ -6,5 +6,5 @@ import ActivityIndicator from './ActivityIndicator';
 export default combineReducers({
   activityIndicatorReducer: ActivityIndicator,
   accountReducer: Account,
-  classesReducer: Classes,
+  classesReducer: Classes
 });

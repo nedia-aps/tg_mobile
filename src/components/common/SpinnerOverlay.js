@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0,
+    right: 0
   },
   background: {
     position: 'absolute',
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
 
 class SpinnerOverlay extends Component {
@@ -30,7 +30,7 @@ class SpinnerOverlay extends Component {
       loaderColor,
       isRequest,
       sizeLoader = 'small',
-      isLoading = 'false',
+      isLoading = 'false'
     } = this.props;
     const modalColor = isRequest ? 'transparent' : 'rgba(0, 0, 0, 0.7)';
     const loader = isRequest ? 'transparent' : loaderColor;
@@ -53,10 +53,13 @@ class SpinnerOverlay extends Component {
 SpinnerOverlay.propTypes = {
   loaderColor: PropTypes.string.isRequired,
   sizeLoader: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 const mapStateToProps = ({ activityIndicatorReducer }) => {
   const { isLoading, isRequest } = activityIndicatorReducer;
   return { isLoading, isRequest };
 };
-export default connect(mapStateToProps, [])(SpinnerOverlay);
+export default connect(
+  mapStateToProps,
+  []
+)(SpinnerOverlay);

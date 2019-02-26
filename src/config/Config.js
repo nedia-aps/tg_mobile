@@ -4,15 +4,16 @@ export const Config = {
     Account: {
       Login: 'api/Account/TeacherLogin',
       ResetPassword: 'api/User/UpdatePassword',
-      LogOff: 'Account/Logoff',
+      LogOff: 'Account/Logoff'
     },
     Classes: {
       Get: 'api/Classes/GetTeacherClasses',
       AddLog: 'api/Classes/LogWeeklyClassTime',
       GetLog: 'api/Classes/GetLoggedAverage',
       GetLastLoggedTime: 'api/Classes/GetLastLoggedTime',
-      CancelClass: 'api/Classes/CancelCLass',
-    },
-  },
+      CancelClass: 'api/Classes/CancelCLass'
+    }
+  }
 };
+
 export default Config;

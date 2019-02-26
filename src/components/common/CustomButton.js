@@ -8,7 +8,7 @@ const deviceWin = Dimensions.get('window');
 const styles = {
   textStyle: {
     fontSize: 16,
-    color: colors.whiteColor,
+    color: colors.whiteColor
   },
   buttonStyle: {
     width: deviceWin.width * 0.9,
@@ -19,24 +19,21 @@ const styles = {
     margin: 5,
     borderWidth: 1,
     borderColor: '#fff',
-    marginTop: 20,
-  },
+    marginTop: 20
+  }
 };
 
-const CustomButton = (props) => {
+const CustomButton = props => {
   const { labelText, onTouch } = props;
   const { textStyle, buttonStyle } = styles;
   const labelStyle = { ...textStyle };
   const touchStyle = { ...buttonStyle };
 
   return (
-
     <Button onPress={onTouch} style={touchStyle}>
       <Text style={labelStyle}>{labelText}</Text>
     </Button>
-
   );
 };
-
 
 export default CustomButton;

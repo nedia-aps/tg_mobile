@@ -25,14 +25,15 @@ export default class BaseApi {
   static transformResponse() {
     return {
       transformResponse: [
-        function (data) {
+        function(data) {
           return data ? JSON.parse(data) : {};
-        },
-      ],
+        }
+      ]
     };
   }
 
-  static handleException(ex) {
+  static handleException() {
+    // ex
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: false });
   }
 
@@ -59,10 +60,10 @@ export default class BaseApi {
 
     await axios
       .get(api, params, this.transformResponse())
-      .then((response) => {
+      .then(response => {
         store.dispatch({
           type: ActionTypes.SET_ISREQUEST_STATE,
-          payload: false,
+          payload: false
         });
         const result = response.data;
         if (response.status !== 200) {
@@ -70,11 +71,12 @@ export default class BaseApi {
         } else {
           me.handleResponse(callback, result);
         }
+        return true;
       })
-      .catch((e) => {
+      .catch(e => {
         store.dispatch({
           type: ActionTypes.SET_ISREQUEST_STATE,
-          payload: false,
+          payload: false
         });
         me.handleException(e);
       });
@@ -85,15 +87,16 @@ export default class BaseApi {
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     axios
       .post(api, params, this.transformResponse())
-      .then((response) => {
+      .then(response => {
         const result = response.data;
         if (response.status !== 200) {
           me.handleException(response);
         } else {
           me.handleResponse(callback, result);
         }
+        return true;
       })
-      .catch((e) => {
+      .catch(e => {
         me.handleException(e);
       });
   }
@@ -103,15 +106,16 @@ export default class BaseApi {
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     await axios
       .put(api, params, this.transformResponse())
-      .then((response) => {
+      .then(response => {
         const result = response.data;
         if (response.status !== 200) {
           me.handleException(response);
         } else {
           me.handleResponse(callback, result);
         }
+        return true;
       })
-      .catch((e) => {
+      .catch(e => {
         me.handleException(e);
       });
   }
@@ -121,15 +125,16 @@ export default class BaseApi {
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     await axios
       .delete(api, params, this.transformResponse())
-      .then((response) => {
+      .then(response => {
         const result = response.data;
         if (response.status !== 200) {
           me.handleException(response);
         } else {
           me.handleResponse(callback, result);
         }
+        return true;
       })
-      .catch((e) => {
+      .catch(e => {
         me.handleException(e);
       });
   }

@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   error: '',
   email: 'hannerysg@me.com',
   password: 'Fosv@431',
-  errorMessage: 'Indtast nyt kodeord',
+  errorMessage: 'Indtast nyt kodeord'
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
     case RESET_FORM_CHANGED:
       return {
         ...state,
-        errorMessage: action.payload,
+        errorMessage: action.payload
       };
     default:
       return state;

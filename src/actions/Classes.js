@@ -1,26 +1,26 @@
-
 import { Actions } from 'react-native-router-flux';
 import ToastMessage from '../utils/ToasterWrapper';
 import { ActionTypes } from '../utils';
 import { Config } from '../config/Config';
 import BaseApi from '../config/BaseApi';
 
+// eslint-disable-next-line
 const { REST_APIs } = Config;
 
 export const formChanged = value => ({
   type: ActionTypes.LOGIN_FORM_CHANGE,
-  payload: value,
+  payload: value
 });
 export const logFormChanged = value => ({
   type: ActionTypes.LOG_FORM_CHANGE,
-  payload: value,
+  payload: value
 });
 export const setClassTeacherProp = value => ({
   type: ActionTypes.SELECTED_CLASS,
-  payload: value,
+  payload: value
 });
-export const get = ({ userId }) => (dispatch) => {
-  BaseApi.get(`${REST_APIs.Classes.Get}?userId=${userId}`, null, (response) => {
+export const get = ({ userId }) => dispatch => {
+  BaseApi.get(`${REST_APIs.Classes.Get}?userId=${userId}`, null, response => {
     const baseModel = response;
     if (!baseModel.success) {
       ToastMessage('Der er opstået en fejl', 'danger');
@@ -39,8 +39,8 @@ export const saveLog = ({
   Minutes,
   Male,
   FeMale,
-  Logtype,
-}) => (dispatch) => {
+  Logtype
+}) => dispatch => {
   BaseApi.post(
     REST_APIs.Classes.AddLog,
     {
@@ -53,9 +53,9 @@ export const saveLog = ({
       Minutes,
       Male,
       FeMale,
-      Logtype,
+      Logtype
     },
-    (response) => {
+    response => {
       const baseModel = response;
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
@@ -64,59 +64,53 @@ export const saveLog = ({
         dispatch({ type: ActionTypes.LOG_FORM_RESET });
         Actions.HoldList();
       }
-    },
+    }
   );
 };
-export const loadLog = ({ authId, classId }) => (dispatch) => {
+
+export const loadLog = ({ authId, classId }) => dispatch => {
   BaseApi.get(
     `${REST_APIs.Classes.GetLog}?TeacherAId=${authId}&classId=${classId}`,
     null,
-    (response) => {
+    response => {
       const baseModel = response;
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
       } else {
         dispatch({ type: ActionTypes.LOG_DATA_GET, payload: baseModel.data });
       }
-    },
+    }
   );
 };
-export const loadLastLogged = ({ authId, classId, date }) => (dispatch) => {
+export const loadLastLogged = ({ authId, classId, date }) => dispatch => {
   BaseApi.get(
-    `${REST_APIs.Classes.GetLastLoggedTime
-    }?TeacherAId=${
-      authId
-    }&classId=${
-      classId
-    }&logDateTime=${
-      date}`,
+    `${
+      REST_APIs.Classes.GetLastLoggedTime
+    }?TeacherAId=${authId}&classId=${classId}&logDateTime=${date}`,
     null,
-    (response) => {
+    response => {
       const baseModel = response;
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
       } else {
         dispatch({
           type: ActionTypes.SET_CURRENT_WEEK_LOG,
-          payload: baseModel.data,
+          payload: baseModel.data
         });
       }
-    },
+    }
   );
 };
-export const cancelClass = ({
-  ClassId,
-  ClassCancelDate,
-  CancelDate,
-}) => (dispatch) => {
+export const cancelClass = ({ ClassId, ClassCancelDate, CancelDate }) => () => {
+  // dispatch
   BaseApi.post(
     REST_APIs.Classes.CancelClass,
     {
       ClassId,
       ClassCancelDate,
-      CancelDate,
+      CancelDate
     },
-    (response) => {
+    response => {
       const baseModel = response;
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
@@ -124,6 +118,6 @@ export const cancelClass = ({
         ToastMessage('Timer er opdateret', 'success');
         Actions.HoldList();
       }
-    },
+    }
   );
 };

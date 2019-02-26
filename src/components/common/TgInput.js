@@ -9,15 +9,15 @@ const T = PropTypes;
 
 const styles = {
   inputStyleMultiline: {
-    fontSize: 15,
+    fontSize: 15
   },
   inputItemStyle: {
-    borderColor: lagoonColor,
+    borderColor: lagoonColor
   },
   inputFont: {
-    fontSize: 15,
+    fontSize: 15
   },
-  inputStyle: {},
+  inputStyle: {}
 };
 const TgInput = ({
   placeholder,
@@ -28,7 +28,7 @@ const TgInput = ({
   onChangeText,
   keyboardType,
   secureTextEntry,
-  iconName,
+  iconName
 }) => {
   const { inputItemStyle } = styles;
   return (
@@ -60,7 +60,7 @@ TgInput.propTypes = {
   error: T.string,
   onChangeText: T.func.isRequired,
   keyboardType: T.string,
-  secureTextEntry: T.bool,
+  secureTextEntry: T.bool
 };
 
 TgInput.defaultProps = {
@@ -68,6 +68,6 @@ TgInput.defaultProps = {
   multiline: false,
   numberOfLines: 1,
   keyboardType: 'default',
-  secureTextEntry: false,
+  secureTextEntry: false
 };
 export default TgInput;
