@@ -60,8 +60,11 @@
     "react-native-simple-gauge": "^0.1.11",
     "react-native-toaster": "^1.2.2",
     "react-navigation": "^3.3.2",
-    "react-redux": "^6.0.1",
+    "react-redux": "5.1.1",
     "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^6.1.0",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {

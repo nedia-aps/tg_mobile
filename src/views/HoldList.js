@@ -29,7 +29,7 @@ const stylesContainers = {
   }
 };
 class HoldList extends Component {
-  componentDidMount() {
+  componentWillMount() {
     SecureStore.getItemAsync('userInfo')
       .then(response => {
         if (response !== null) {
@@ -40,6 +40,10 @@ class HoldList extends Component {
         return true;
       })
       .catch(() => {});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('===== nextprops: ', nextProps);
   }
 
   logout() {

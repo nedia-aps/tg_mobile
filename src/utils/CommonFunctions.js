@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from '../reducers';
 
 const months = [
@@ -14,10 +15,10 @@ const months = [
   'SEPT',
   'OCT',
   'NOV',
-  'DEC',
+  'DEC'
 ];
 const days = ['SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'];
-export const setSelectedDate = (value) => {
+export const setSelectedDate = value => {
   const todayDate = value === 0 ? new Date() : value;
   const dayStr = todayDate.getDay();
   const dayNum = todayDate.getDate();
@@ -28,7 +29,8 @@ export const validateDate = (data, dateValue) => {
   const result = data.filter(x => x.date === dateValue);
   if (result !== null) {
     return true;
-  } return false;
+  }
+  return false;
 };
 export const getDates = (startDate, endDate, data) => {
   const from = new Date(startDate);
@@ -36,7 +38,7 @@ export const getDates = (startDate, endDate, data) => {
   const objs = {};
   for (let day = from; day <= to; day.setDate(day.getDate() + 1)) {
     const year = day.getFullYear();
-    const month = (1 + day.getMonth());
+    const month = 1 + day.getMonth();
     const m = month > 9 ? month : `0${month}`;
     const currentDay = day.getDate();
     const d = parseInt(currentDay, 10) > 9 ? currentDay : `0${currentDay}`;
@@ -47,7 +49,7 @@ export const getDates = (startDate, endDate, data) => {
   }
   return objs;
 };
-export const formateDate = (d) => {
+export const formateDate = d => {
   let offset = 0;
   if (typeof d === 'string' || d instanceof String) {
     offset = new Date().getTimezoneOffset();
@@ -66,4 +68,8 @@ export const formateDate = (d) => {
   return `${dd}/${mm}/${yyyy}`;
 };
 
-export const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+export const store = createStore(
+  reducers,
+  {},
+  composeWithDevTools(applyMiddleware(ReduxThunk))
+);

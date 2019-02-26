@@ -47,14 +47,6 @@ class Login extends Component {
       passwordError: false,
       tokenValue: ''
     };
-    SecureStore.getItemAsync('userInfo')
-      .then(response => {
-        if (response) {
-          Actions.HoldList({ type: 'reset' });
-        }
-        return true;
-      })
-      .catch(() => {});
   }
 
   componentDidMount() {
@@ -67,6 +59,17 @@ class Login extends Component {
         // err
         // this.setState({ error: err.toString() });
       });
+  }
+
+  componetWillMount() {
+    SecureStore.getItemAsync('userInfo')
+      .then(response => {
+        if (response) {
+          Actions.HoldList({ type: 'reset' });
+        }
+        return true;
+      })
+      .catch(() => {});
   }
 
   setFieldValue() {
