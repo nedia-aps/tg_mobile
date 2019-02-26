@@ -1,4 +1,4 @@
-import Expo from 'expo';
+import { SecureStore } from 'expo';
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { Footer, FooterTab, Button, Icon } from 'native-base';
@@ -6,14 +6,16 @@ import { Actions } from 'react-native-router-flux';
 
 class BottomFooter extends Component {
   logout() {
-    Expo.SecureStore.deleteItemAsync('userInfo');
+    SecureStore.deleteItemAsync('userInfo');
     Actions.Login({ type: 'reset' });
   }
+
   showTimeLogView(value) {
     const { ClassessActions } = this.props;
     ClassessActions.setClassTeacherProp(value);
     Actions.TimeLog();
   }
+
   render() {
     const { Id } = this.props;
 

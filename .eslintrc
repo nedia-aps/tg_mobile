@@ -1,12 +1,88 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
-  "plugins": ["react", "jsx-a11y", "import"],
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "rules": {
-    "react/jsx-filename-extension": 0,
-    "react/prefer-stateless-function": 0,
-    "import/no-unresolved": 0,
-    "no-debugger": 0,
-    "linebreak-style": 0
+    "arrow-parens": ["off"],
+    "class-methods-use-this": "off",
+    "compat/compat": "error",
+    "consistent-return": "off",
+    "comma-dangle": "off",
+    "generator-star-spacing": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "json": "never"
+      }
+    ],
+    "import/no-unresolved": "error",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "import/no-named-as-default": 0,
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/media-has-caption": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/label-has-for": [
+      2,
+      {
+        "components": ["Label"],
+        "required": {
+          "some": ["nesting", "id"]
+        },
+        "allowChildren": false
+      }
+    ],
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "no-console": "off",
+    "no-else-return": "off",
+    "no-use-before-define": "off",
+    "no-multi-assign": "off",
+    "no-underscore-dangle": "off",
+    "no-param-reassign": [2, { "props": false }],
+    "promise/param-names": "error",
+    "promise/always-return": "error",
+    "promise/catch-or-return": "error",
+    "promise/no-native": "off",
+    "react/button-has-type": ["error", { "reset": true }],
+    "react/sort-comp": [
+      "error",
+      {
+        "order": [
+          "type-annotations",
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "warn"
+  },
+  "plugins": ["import", "promise", "compat", "react"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "app"]
+      }
+    },
+    "polyfills": ["promises"]
   }
 }
