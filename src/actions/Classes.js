@@ -103,6 +103,7 @@ export const loadLastLogged = ({ authId, classId, date }) => dispatch => {
 };
 export const cancelClass = ({ ClassId, ClassCancelDate, CancelDate }) => () => {
   // dispatch
+  console.log('cancelClass', ClassCancelDate, CancelDate);
   BaseApi.post(
     REST_APIs.Classes.CancelClass,
     {

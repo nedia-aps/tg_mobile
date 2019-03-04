@@ -49,7 +49,7 @@ LocaleConfig.locales.da = {
     'Dec.'
   ],
   dayNames: [
-    'Sunday',
+    'Søndag',
     'Mandag',
     'Tirsdag',
     'Onsdag',
@@ -88,7 +88,8 @@ class LogForm extends Component {
       // currentWeekLog: false,
       // isDateTimePickerVisible: false,
       // formatedate: null,
-      isModalVisible: false
+      isModalVisible: false,
+      LoggedDate: ''
     };
     SecureStore.getItemAsync('userInfo')
       .then(response => {
@@ -161,7 +162,8 @@ class LogForm extends Component {
 
   save() {
     let error = false;
-    const { Hrs, Mins, Male, Female, LoggedDate } = this.props;
+    const { Hrs, Mins, Male, Female } = this.props;
+    const { LoggedDate } = this.state;
     if (LoggedDate) {
       this.setState({ DateError: false });
     } else {
@@ -202,7 +204,8 @@ class LogForm extends Component {
   cancelClass() {
     let error = false;
 
-    const { LoggedDate, action, seletedClass } = this.props;
+    const { action, seletedClass } = this.props;
+    const { LoggedDate } = this.state;
     if (LoggedDate) {
       this.setState({ DateError: false });
     } else {
@@ -221,16 +224,8 @@ class LogForm extends Component {
   }
 
   saveLog() {
-    const { authId } = this.state;
-    const {
-      Hrs,
-      Mins,
-      Male,
-      Female,
-      seletedClass,
-      action,
-      LoggedDate
-    } = this.props;
+    const { authId, LoggedDate } = this.state;
+    const { Hrs, Mins, Male, Female, seletedClass, action } = this.props;
     const hours = Hrs * 60;
     const tHours = hours + Number.parseInt(Mins, 10);
     const Quantity = Number.parseInt(Male, 10) + Number.parseInt(Female, 10);
@@ -294,9 +289,21 @@ class LogForm extends Component {
     return null;
   }
 
+  getMaxDate(dates) {
+    let max = dates[0].date;
+    // eslint-disable-next-line
+    dates.map(each => {
+      if (max < each.date) {
+        max = each.date;
+      }
+    });
+    return new Date(max);
+  }
+
   render() {
     // const { containerStyle } = stylesContainers;
     const {
+      LoggedDate,
       femaleError,
       maleError,
       MinError,
@@ -312,14 +319,14 @@ class LogForm extends Component {
       LoggedForCurrentWeek,
       startDate,
       loggedDatesData,
-      LoggedDate,
       seletedClass
     } = this.props;
     let maxDate;
     if (loggedDatesData.length > 0) {
-      maxDate = loggedDatesData
-        ? new Date(loggedDatesData[loggedDatesData.length - 1].date)
-        : new Date();
+      maxDate = this.getMaxDate(loggedDatesData);
+      // maxDate = loggedDatesData
+      //   ? new Date(loggedDatesData[loggedDatesData.length - 1].date)
+      //   : new Date();
     } else {
       maxDate = new Date();
     }
@@ -336,23 +343,24 @@ class LogForm extends Component {
             minDate={startDate}
             maxDate={maxDate}
             onDayPress={day => {
-              const { action } = this.props;
-              action.logFormChanged({
-                prop: 'LoggedDate',
-                value: day.dateString
-              });
+              // const { action } = this.props;
+              // action.logFormChanged({
+              //   prop: 'LoggedDate',
+              //   value: day.dateString
+              // });
               // const newDate = day.dateString;
               this.setState({
+                LoggedDate: day.dateString,
                 isModalVisible: !isModalVisible,
                 // formatedate: CommonFunctions.formateDate(newDate),
                 DateError: false
               });
             }}
-            onMonthChange={month => {
-              console.log('month changed', month);
+            onMonthChange={() => {
+              // month
+              // console.log('month changed', month);
               // this.setState({ isModalVisible: !this.state.isModalVisible });
             }}
-            // markedDates={{'2018-05-08': {disabled: true,disableTouchEvent: true}}
             markedDates={this.setData()}
           />
           <TouchableOpacity

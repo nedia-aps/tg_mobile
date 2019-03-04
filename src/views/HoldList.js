@@ -5,9 +5,10 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  FlatList
 } from 'react-native';
-import { Content, Icon, List, ListItem } from 'native-base';
+import { Content, Icon } from 'native-base';
 
 import { Actions } from 'react-native-router-flux';
 import { bindActionCreators } from 'redux';
@@ -26,6 +27,9 @@ const stylesContainers = {
     flex: 1,
     width: deviceWin.width * 1,
     height: deviceWin.height * 1
+  },
+  textStyle: {
+    color: '#000'
   }
 };
 class HoldList extends Component {
@@ -92,40 +96,47 @@ class HoldList extends Component {
               alignItems: 'center'
             }}
           >
-            <List
+            <FlatList
               style={{ backgroundColor: 'transparent' }}
-              dataArray={classesList}
-              renderRow={item => (
-                <ListItem
-                  style={{
-                    flexDirection: 'column',
-                    flex: 1,
-                    marginLeft: 0,
-                    paddingRight: 0,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  <TouchableOpacity
+              data={classesList}
+              ListEmptyComponent={() => <View />}
+              renderItem={each => {
+                return (
+                  <View
+                    key={each.index}
                     style={{
-                      justifyContent: 'space-between',
-                      flexDirection: 'row',
-                      backgroundColor: 'transparent',
-                      width: deviceWin.width * 0.9,
-                      alignItems: 'center'
-                    }}
-                    onPress={() => {
-                      this.showTimeLogView(item);
+                      flexDirection: 'column',
+                      flex: 1,
+                      marginLeft: 0,
+                      paddingRight: 0,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 65,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: '#333'
                     }}
                   >
-                    <Text style={textStyle}>{item.className}</Text>
-                    <Icon
-                      name="ios-arrow-forward"
-                      style={{ color: '#426f77' }}
-                    />
-                  </TouchableOpacity>
-                </ListItem>
-              )}
+                    <TouchableOpacity
+                      style={{
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                        backgroundColor: 'transparent',
+                        width: deviceWin.width * 0.9,
+                        alignItems: 'center'
+                      }}
+                      onPress={() => {
+                        this.showTimeLogView(each.item);
+                      }}
+                    >
+                      <Text style={textStyle}>{each.item.className}</Text>
+                      <Icon
+                        name="ios-arrow-forward"
+                        style={{ color: '#426f77' }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                );
+              }}
             />
           </View>
         </Content>

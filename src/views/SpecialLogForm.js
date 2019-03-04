@@ -49,7 +49,7 @@ LocaleConfig.locales.da = {
     'Dec.'
   ],
   dayNames: [
-    'Sunday',
+    'Søndag',
     'Mandag',
     'Tirsdag',
     'Onsdag',
