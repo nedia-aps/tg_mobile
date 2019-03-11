@@ -7,7 +7,8 @@ const {
   LOG_FORM_CHANGE,
   LOG_FORM_RESET,
   LOG_DATA_GET,
-  SET_CURRENT_WEEK_LOG
+  SET_CURRENT_WEEK_LOG,
+  CLASS_DATA
 } = ActionTypes;
 
 const INITIAL_STATE = {
@@ -25,7 +26,9 @@ const INITIAL_STATE = {
   LoggedDate: null,
   startDate: '',
   endDate: '',
-  loggedDatesData: []
+  loggedDatesData: [],
+  canceledDatesData: [],
+  classData: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -60,12 +63,24 @@ export default (state = INITIAL_STATE, action) => {
               10
             )
           : 0;
-
+      console.log(
+        'action.payload.logged',
+        action.payload.logged,
+        'progressState:',
+        total,
+        action.payload.totalHours
+      );
       return {
         ...state,
         totalHours: action.payload.totalHours,
         progressState: total,
         logged: action.payload.logged
+      };
+    }
+    case CLASS_DATA: {
+      return {
+        ...state,
+        classData: action.payload.classData
       };
     }
     case SET_CURRENT_WEEK_LOG:
@@ -76,7 +91,8 @@ export default (state = INITIAL_STATE, action) => {
         Male: action.payload.loggedMale,
         Female: action.payload.loggedFeMale,
         LoggedForCurrentWeek: action.payload.loggedForCurrentWeek,
-        loggedDatesData: action.payload.loggedDatesData
+        loggedDatesData: action.payload.loggedDatesData,
+        canceledDatesData: action.payload.canceledDatesData
       };
     default:
       return state;

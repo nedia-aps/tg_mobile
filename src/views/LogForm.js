@@ -57,7 +57,7 @@ LocaleConfig.locales.da = {
     'Fredag',
     'Lørdag'
   ],
-  dayNamesShort: ['Sun.', 'Man.', 'Tir.', 'Ons.', 'Tor.', 'Fre.', 'Lør.']
+  dayNamesShort: ['Søn.', 'Man.', 'Tir.', 'Ons.', 'Tor.', 'Fre.', 'Lør.']
 };
 
 LocaleConfig.defaultLocale = 'da';
@@ -259,47 +259,6 @@ class LogForm extends Component {
     this.setState({ isModalVisible: !isModalVisible });
   }
 
-  validateDate = (data, dateValue) => {
-    const result = data.filter(x => x.date === dateValue);
-    if (result.length > 0) {
-      return true;
-    }
-    return false;
-  };
-
-  setData() {
-    const { loggedDatesData, startDate } = this.props;
-    if (loggedDatesData) {
-      const from = new Date(startDate);
-      const to = new Date();
-      const objs = {};
-      for (let day = from; day <= to; day.setDate(day.getDate() + 1)) {
-        const year = day.getFullYear();
-        const month = 1 + day.getMonth();
-        const m = month > 9 ? month : `0${month}`;
-        const currentDay = day.getDate();
-        const d = parseInt(currentDay, 10) > 9 ? currentDay : `0${currentDay}`;
-        const dateValue = `${year}-${m}-${d}`;
-        if (!this.validateDate(loggedDatesData, dateValue)) {
-          objs[dateValue] = { disabled: true, disableTouchEvent: true };
-        }
-      }
-      return objs;
-    }
-    return null;
-  }
-
-  getMaxDate(dates) {
-    let max = dates[0].date;
-    // eslint-disable-next-line
-    dates.map(each => {
-      if (max < each.date) {
-        max = each.date;
-      }
-    });
-    return new Date(max);
-  }
-
   render() {
     // const { containerStyle } = stylesContainers;
     const {
@@ -318,18 +277,12 @@ class LogForm extends Component {
       Female,
       LoggedForCurrentWeek,
       startDate,
-      loggedDatesData,
-      seletedClass
+      seletedClass,
+      maxDate,
+      markedDates,
+      leftDateCount
     } = this.props;
-    let maxDate;
-    if (loggedDatesData.length > 0) {
-      maxDate = this.getMaxDate(loggedDatesData);
-      // maxDate = loggedDatesData
-      //   ? new Date(loggedDatesData[loggedDatesData.length - 1].date)
-      //   : new Date();
-    } else {
-      maxDate = new Date();
-    }
+    console.log('this.props', this.props);
     return (
       <ImageBackground
         source={bg}
@@ -342,6 +295,7 @@ class LogForm extends Component {
           <Calendar
             minDate={startDate}
             maxDate={maxDate}
+            firstDay={1}
             onDayPress={day => {
               // const { action } = this.props;
               // action.logFormChanged({
@@ -361,7 +315,7 @@ class LogForm extends Component {
               // console.log('month changed', month);
               // this.setState({ isModalVisible: !this.state.isModalVisible });
             }}
-            markedDates={this.setData()}
+            markedDates={markedDates}
           />
           <TouchableOpacity
             onPress={() => this._toggleModal()}
@@ -633,7 +587,7 @@ class LogForm extends Component {
               <Text
                 style={{ alignSelf: 'center', color: 'white', fontSize: 16 }}
               >
-                {loggedDatesData.length === 0 ? 'Allerede tilføjet' : 'Gem'}
+                {leftDateCount === 0 ? 'Allerede tilføjet' : 'Gem'}
               </Text>
             </View>
           </TouchableOpacity>
@@ -655,7 +609,7 @@ class LogForm extends Component {
               <Text
                 style={{ alignSelf: 'center', color: 'white', fontSize: 16 }}
               >
-                {'Aflyst denne gang'}
+                {'Aflys denne gang'}
               </Text>
             </View>
           </TouchableOpacity>
@@ -663,6 +617,90 @@ class LogForm extends Component {
         <BottomFooter Id="2" />
       </ImageBackground>
     );
+  }
+}
+
+function containDate(dateArray, dateValue) {
+  const result = dateArray.filter(x => x.date === dateValue);
+  return result.length > 0;
+}
+
+function shouldBeDisabled(classData, loggedDatesData, canceledDatesData, day) {
+  const year = day.getFullYear();
+  const month = 1 + day.getMonth();
+  const m = month > 9 ? month : `0${month}`;
+  const currentDay = day.getDate();
+  const d = parseInt(currentDay, 10) > 9 ? currentDay : `0${currentDay}`;
+  const dateValue = `${year}-${m}-${d}`;
+  if (
+    containDate(loggedDatesData, dateValue) ||
+    containDate(canceledDatesData, dateValue)
+  ) {
+    return dateValue;
+  } else {
+    if (
+      classData != null &&
+      ((classData.dayOfClass === 7 && day.getDay() === 0) ||
+        classData.dayOfClass === day.getDay())
+    ) {
+      return null;
+    }
+    return dateValue;
+  }
+}
+
+function getAvailableDates(
+  loggedDatesData,
+  canceledDatesData,
+  startDate,
+  classData
+) {
+  if (loggedDatesData || canceledDatesData) {
+    const from = new Date(startDate);
+    const to = new Date();
+    const objs = {};
+    let eachDate;
+    let entireNoD = 1;
+    let objCount = 0;
+    for (let day = from; day <= to; day.setDate(day.getDate() + 1)) {
+      eachDate = shouldBeDisabled(
+        classData,
+        loggedDatesData,
+        canceledDatesData,
+        day
+      );
+      if (eachDate != null) {
+        objs[eachDate] = { disabled: true, disableTouchEvent: true };
+        objCount += 1;
+      }
+      entireNoD += 1;
+    }
+    eachDate = shouldBeDisabled(
+      classData,
+      loggedDatesData,
+      canceledDatesData,
+      to
+    );
+    if (eachDate != null) {
+      objs[eachDate] = { disabled: true, disableTouchEvent: true };
+      objCount += 1;
+    }
+    // console.log('objs', objs);
+    const ret = { objs, leftDateCount: entireNoD - objCount };
+    return ret;
+  }
+  return { objs: null, leftDateCount: 1 };
+}
+
+function getMaxDate(classData) {
+  if (classData != null) {
+    let maxDate = new Date(classData.endDateTime);
+    if (maxDate.getTime() > new Date().getTime()) {
+      maxDate = new Date();
+    }
+    return maxDate;
+  } else {
+    return new Date();
   }
 }
 
@@ -677,8 +715,19 @@ const mapStateToProps = ({ classesReducer }) => {
     LoggedDate,
     startDate,
     endDate,
-    loggedDatesData
+    loggedDatesData,
+    canceledDatesData,
+    classData
   } = classesReducer;
+  const maxDate = getMaxDate(classData);
+  const available = getAvailableDates(
+    loggedDatesData,
+    canceledDatesData,
+    startDate,
+    classData
+  );
+  const { objs: markedDates, leftDateCount } = available;
+
   return {
     seletedClass,
     Hrs,
@@ -689,7 +738,12 @@ const mapStateToProps = ({ classesReducer }) => {
     LoggedDate,
     startDate,
     endDate,
-    loggedDatesData
+    loggedDatesData,
+    canceledDatesData,
+    classData,
+    maxDate,
+    markedDates,
+    leftDateCount
   };
 };
 

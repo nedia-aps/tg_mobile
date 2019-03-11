@@ -9,6 +9,7 @@ export const ActionTypes = {
   LOG_DATA_GET: 'LOG_DATA_GET',
   SET_CURRENT_WEEK_LOG: 'SET_CURRENT_WEEK_LOG',
   RESET_FORM_CHANGED: 'RESET_FORM_CHANGED',
+  CLASS_DATA: 'CLASS_DATA'
 };
 
 export default ActionTypes;
