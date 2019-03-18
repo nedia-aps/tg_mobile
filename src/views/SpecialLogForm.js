@@ -57,7 +57,7 @@ LocaleConfig.locales.da = {
     'Fredag',
     'Lørdag'
   ],
-  dayNamesShort: ['Sun.', 'Man.', 'Tir.', 'Ons.', 'Tor.', 'Fre.', 'Lør.']
+  dayNamesShort: ['Søn.', 'Man.', 'Tir.', 'Ons.', 'Tor.', 'Fre.', 'Lør.']
 };
 
 LocaleConfig.defaultLocale = 'da';
@@ -276,6 +276,7 @@ class SpecialLogForm extends Component {
           <Calendar
             minDate={startDate}
             maxDate={new Date()}
+            firstDay={1}
             onDayPress={day => {
               // const newDate = day.dateString;
               this.setState({
@@ -333,11 +334,12 @@ class SpecialLogForm extends Component {
                   style={{
                     fontSize: 32,
                     color: colors.whiteColor,
+                    textAlign: 'center',
                     paddingTop: 10,
                     paddingBottom: 10
                   }}
                 >
-                  {'Aflyst denne gang'}
+                  {'Ekstra træning'}
                 </Text>
               </View>
               <View style={{ flex: 1 }} />

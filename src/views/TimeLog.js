@@ -57,6 +57,7 @@ class TimeLog extends Component {
     const { seletedClass, action } = this.props;
     const { authId } = this.state;
     action.loadLog({ authId, classId: seletedClass.classId });
+    action.loadClassData({ classId: seletedClass.classId });
   }
 
   render() {

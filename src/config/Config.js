@@ -11,7 +11,8 @@ export const Config = {
       AddLog: 'api/Classes/LogWeeklyClassTime',
       GetLog: 'api/Classes/GetLoggedAverage',
       GetLastLoggedTime: 'api/Classes/GetLastLoggedTime',
-      CancelClass: 'api/Classes/CancelCLass'
+      CancelClass: 'api/Classes/CancelCLass',
+      GetClassById: 'api/Classes/GetClassDataById'
     }
   }
 };

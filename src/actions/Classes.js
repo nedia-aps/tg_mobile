@@ -82,7 +82,26 @@ export const loadLog = ({ authId, classId }) => dispatch => {
     }
   );
 };
+export const loadClassData = ({ classId }) => dispatch => {
+  BaseApi.get(
+    `${REST_APIs.Classes.GetClassById}?id=${classId}`,
+    null,
+    response => {
+      const baseModel = response;
+      if (!baseModel.success) {
+        ToastMessage('Der er opstået en fejl', 'danger');
+        dispatch({
+          type: ActionTypes.CLASS_DATA,
+          payload: { classData: null }
+        });
+      } else {
+        dispatch({ type: ActionTypes.CLASS_DATA, payload: baseModel.data });
+      }
+    }
+  );
+};
 export const loadLastLogged = ({ authId, classId, date }) => dispatch => {
+  console.log(`TeacherAId=${authId}&classId=${classId}&logDateTime=${date}`);
   BaseApi.get(
     `${
       REST_APIs.Classes.GetLastLoggedTime
@@ -90,6 +109,7 @@ export const loadLastLogged = ({ authId, classId, date }) => dispatch => {
     null,
     response => {
       const baseModel = response;
+      // console.log('response', response);
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
       } else {
