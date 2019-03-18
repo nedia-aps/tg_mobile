@@ -17,12 +17,14 @@ export default class App extends React.Component {
     super();
     this.initialiseApp();
     this.state = {
-      isReady: false,
+      isReady: false
     };
   }
+
   initialiseApp() {
     BaseApi.setDefaults('');
   }
+
   async loadFonts() {
     await Promise.all([
       // Asset.loadAsync([
@@ -30,10 +32,11 @@ export default class App extends React.Component {
       //   require('./src/media/images/logo.png')
       // ]),
       Font.loadAsync({
-        Roboto_medium: RobotoMedium,
-      }),
+        Roboto_medium: RobotoMedium
+      })
     ]);
   }
+
   render() {
     const { isReady } = this.state;
     if (!isReady) {
@@ -48,13 +51,15 @@ export default class App extends React.Component {
       <Provider store={store}>
         <Root>
           <View style={{ flex: 1 }}>
-            <SpinnerOverlay cancelable loaderColor={yellow} sizeLoader="large" />
+            <SpinnerOverlay
+              cancelable
+              loaderColor={yellow}
+              sizeLoader="large"
+            />
             <Router />
           </View>
         </Root>
       </Provider>
-
     );
   }
 }
-
