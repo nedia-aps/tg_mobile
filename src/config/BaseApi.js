@@ -34,6 +34,7 @@ export default class BaseApi {
 
   static handleException() {
     // ex
+    console.log('Kan ikke få adgang til dataene');
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: false });
   }
 
@@ -57,9 +58,12 @@ export default class BaseApi {
   static async get(api, params, callback) {
     const me = this;
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
-
+    const pparam = {
+      timeout: 5,
+      params
+    };
     await axios
-      .get(api, params, this.transformResponse())
+      .get(api, pparam, this.transformResponse())
       .then(response => {
         store.dispatch({
           type: ActionTypes.SET_ISREQUEST_STATE,
@@ -84,9 +88,13 @@ export default class BaseApi {
 
   static async post(api, params, callback) {
     const me = this;
+    const pparam = {
+      timeout: 5,
+      params
+    };
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     axios
-      .post(api, params, this.transformResponse())
+      .post(api, pparam, this.transformResponse())
       .then(response => {
         const result = response.data;
         if (response.status !== 200) {
@@ -104,8 +112,12 @@ export default class BaseApi {
   static async put(api, params, callback) {
     const me = this;
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
+    const pparam = {
+      timeout: 5,
+      params
+    };
     await axios
-      .put(api, params, this.transformResponse())
+      .put(api, pparam, this.transformResponse())
       .then(response => {
         const result = response.data;
         if (response.status !== 200) {
@@ -122,9 +134,13 @@ export default class BaseApi {
 
   static async delete(api, params, callback) {
     const me = this;
+    const pparam = {
+      timeout: 5,
+      params
+    };
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     await axios
-      .delete(api, params, this.transformResponse())
+      .delete(api, pparam, this.transformResponse())
       .then(response => {
         const result = response.data;
         if (response.status !== 200) {

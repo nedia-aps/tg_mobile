@@ -1,10 +1,10 @@
 {
   "expo": {
-    "sdkVersion": "31.0.0",
+    "sdkVersion": "32.0.0",
     "orientation": "portrait",
     "scheme": "tg",
     "name": "TGI Barometer",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "slug": "tg-dev",
     "icon": "./src/media/images/Icon.png",
     "ios": {
