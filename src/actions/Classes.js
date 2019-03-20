@@ -109,7 +109,7 @@ export const loadLastLogged = ({ authId, classId, date }) => dispatch => {
     null,
     response => {
       const baseModel = response;
-      // console.log('response', response);
+      console.log('response', response);
       if (!baseModel.success) {
         ToastMessage('Der er opstået en fejl', 'danger');
       } else {

@@ -19,7 +19,7 @@ export default class BaseApi {
     d.headers.post['Content-Type'] = 'application/json';
     d.headers.post.Accept = 'application/json';
     d.withCredentials = true;
-    d.timeout = 10000; // minute in ms
+    d.timeout = 20000; // minute in ms
   }
 
   static transformResponse() {
@@ -58,7 +58,7 @@ export default class BaseApi {
   static async get(api, params, callback) {
     const me = this;
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
-    const pparam = Object.assign({ timeout: 10000 }, params);
+    const pparam = Object.assign({ timeout: 20000 }, params);
     await axios
       .get(api, pparam, this.transformResponse())
       .then(response => {
@@ -81,7 +81,7 @@ export default class BaseApi {
 
   static async post(api, params, callback) {
     const me = this;
-    const pparam = Object.assign({ timeout: 10000 }, params);
+    const pparam = Object.assign({ timeout: 20000 }, params);
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     return axios
       .post(api, pparam, this.transformResponse())
@@ -102,7 +102,7 @@ export default class BaseApi {
   static async put(api, params, callback) {
     const me = this;
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
-    const pparam = Object.assign({ timeout: 10000 }, params);
+    const pparam = Object.assign({ timeout: 20000 }, params);
     await axios
       .put(api, pparam, this.transformResponse())
       .then(response => {
@@ -121,7 +121,7 @@ export default class BaseApi {
 
   static async delete(api, params, callback) {
     const me = this;
-    const pparam = Object.assign({ timeout: 10000 }, params);
+    const pparam = Object.assign({ timeout: 20000 }, params);
     store.dispatch({ type: ActionTypes.SET_LOADING_STATE, payload: true });
     await axios
       .delete(api, pparam, this.transformResponse())

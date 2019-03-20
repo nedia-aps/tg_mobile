@@ -97,7 +97,10 @@ class LogForm extends Component {
           const user = JSON.parse(response);
           this.setState({ authId: user.authId });
           const date = CommonFunctions.formateDate(dat);
-          this.loadLastLog(date);
+          const otherFormat = date.split('/');
+          this.loadLastLog(
+            `${otherFormat[2]  }-${  otherFormat[1]  }-${  otherFormat[0]}`
+          );
         }
         return true;
       })
@@ -282,7 +285,6 @@ class LogForm extends Component {
       markedDates,
       leftDateCount
     } = this.props;
-    console.log('this.props', this.props);
     return (
       <ImageBackground
         source={bg}
@@ -726,6 +728,7 @@ const mapStateToProps = ({ classesReducer }) => {
     startDate,
     classData
   );
+  console.log('classesReducer', classesReducer);
   const { objs: markedDates, leftDateCount } = available;
 
   return {
