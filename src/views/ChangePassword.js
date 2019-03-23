@@ -333,15 +333,15 @@ class ChangePassword extends Component {
             </TouchableOpacity>
           </View>
         </Content>
-        <BottomFooter Id="3" />
+        <BottomFooter Id="3" UserInfo={this.props} />
       </ImageBackground>
     );
   }
 }
 
 const mapStateToProps = ({ accountReducer }) => {
-  const { errorMessage } = accountReducer;
-  return { errorMessage };
+  const { errorMessage, email, password } = accountReducer;
+  return { errorMessage, email, password };
 };
 
 const mapDispatchToProps = dispatch => ({

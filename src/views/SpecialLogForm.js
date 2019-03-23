@@ -18,6 +18,7 @@ import { colors } from '../utils';
 import * as CommonFunctions from '../utils/CommonFunctions';
 import bg from '../media/images/bg.png';
 import { BottomFooter } from '../components/common';
+import * as Account from '../actions/Acount';
 
 LocaleConfig.locales.da = {
   monthNames: [
@@ -561,13 +562,13 @@ class SpecialLogForm extends Component {
             </View>
           </TouchableOpacity>
         </Content>
-        <BottomFooter Id="2" />
+        <BottomFooter Id="2" UserInfo={this.props} />
       </ImageBackground>
     );
   }
 }
 
-const mapStateToProps = ({ classesReducer }) => {
+const mapStateToProps = ({ classesReducer, accountReducer }) => {
   const {
     seletedClass,
     Hrs,
@@ -580,6 +581,8 @@ const mapStateToProps = ({ classesReducer }) => {
     endDate,
     loggedDatesData
   } = classesReducer;
+
+  const { email, password } = accountReducer;
   return {
     seletedClass,
     Hrs,
@@ -590,12 +593,15 @@ const mapStateToProps = ({ classesReducer }) => {
     LoggedDate,
     startDate,
     endDate,
-    loggedDatesData
+    loggedDatesData,
+    email,
+    password
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators(Classes, dispatch)
+  action: bindActionCreators(Classes, dispatch),
+  account: bindActionCreators(Account, dispatch)
 });
 
 export default connect(

@@ -88,6 +88,7 @@ export default class BaseApi {
       .then(response => {
         const result = response.data;
         if (response.status !== 200) {
+          console.log('exception 1');
           me.handleException(response);
         } else {
           me.handleResponse(callback, result);
@@ -95,6 +96,7 @@ export default class BaseApi {
         return true;
       })
       .catch(e => {
+        console.log('exception 2');
         me.handleException(e);
       });
   }

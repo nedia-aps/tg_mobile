@@ -18,6 +18,7 @@ import { colors } from '../utils';
 import * as CommonFunctions from '../utils/CommonFunctions';
 import bg from '../media/images/bg.png';
 import { BottomFooter } from '../components/common';
+import * as Account from '../actions/Acount';
 
 LocaleConfig.locales.da = {
   monthNames: [
@@ -99,7 +100,7 @@ class LogForm extends Component {
           const date = CommonFunctions.formateDate(dat);
           const otherFormat = date.split('/');
           this.loadLastLog(
-            `${otherFormat[2]  }-${  otherFormat[1]  }-${  otherFormat[0]}`
+            `${otherFormat[2]}-${otherFormat[1]}-${otherFormat[0]}`
           );
         }
         return true;
@@ -616,7 +617,7 @@ class LogForm extends Component {
             </View>
           </TouchableOpacity>
         </Content>
-        <BottomFooter Id="2" />
+        <BottomFooter Id="2" UserInfo={this.props} />
       </ImageBackground>
     );
   }
@@ -706,7 +707,7 @@ function getMaxDate(classData) {
   }
 }
 
-const mapStateToProps = ({ classesReducer }) => {
+const mapStateToProps = ({ classesReducer, accountReducer }) => {
   const {
     seletedClass,
     Hrs,
@@ -731,6 +732,8 @@ const mapStateToProps = ({ classesReducer }) => {
   console.log('classesReducer', classesReducer);
   const { objs: markedDates, leftDateCount } = available;
 
+  const { email, password } = accountReducer;
+
   return {
     seletedClass,
     Hrs,
@@ -746,12 +749,15 @@ const mapStateToProps = ({ classesReducer }) => {
     classData,
     maxDate,
     markedDates,
-    leftDateCount
+    leftDateCount,
+    email,
+    password
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators(Classes, dispatch)
+  action: bindActionCreators(Classes, dispatch),
+  account: bindActionCreators(Account, dispatch)
 });
 
 export default connect(

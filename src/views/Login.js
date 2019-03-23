@@ -86,6 +86,7 @@ class Login extends Component {
       return;
     }
     const result = await Notifications.getExpoPushTokenAsync();
+    console.log(`push token = ${result}`);
     return result;
     // const token = await Notifications.getExpoPushTokenAsync();
     // this.setState({ tokenValue: token });

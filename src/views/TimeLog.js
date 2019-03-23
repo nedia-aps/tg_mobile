@@ -18,6 +18,7 @@ import bg from '../media/images/bg.png';
 import { CustomButton, BottomFooter } from '../components/common';
 import * as Classes from '../actions/Classes';
 import { colors } from '../utils';
+import * as Account from '../actions/Acount';
 
 const gauge = require('../media/images/gauge.png');
 
@@ -177,24 +178,28 @@ class TimeLog extends Component {
             </View>
           </View>
         </Content>
-        <BottomFooter Id="2" />
+        <BottomFooter Id="2" UserInfo={this.props} />
       </ImageBackground>
     );
   }
 }
 
-const mapStateToProps = ({ classesReducer }) => {
+const mapStateToProps = ({ classesReducer, accountReducer }) => {
   const { seletedClass, totalHours, progressState, logged } = classesReducer;
+  const { email, password } = accountReducer;
   return {
     seletedClass,
     totalHours,
     progressState,
-    logged
+    logged,
+    email,
+    password
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators(Classes, dispatch)
+  action: bindActionCreators(Classes, dispatch),
+  account: bindActionCreators(Account, dispatch)
 });
 
 export default connect(

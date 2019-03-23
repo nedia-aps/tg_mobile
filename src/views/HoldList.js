@@ -1,4 +1,4 @@
-import { SecureStore } from 'expo';
+import { SecureStore, Notifications } from 'expo';
 import React, { Component } from 'react';
 import {
   View,
@@ -17,7 +17,9 @@ import bg from '../media/images/grad-white.png';
 import { BottomFooter } from '../components/common';
 import * as Classes from '../actions/Classes';
 import { colors } from '../utils';
+import * as Account from '../actions/Acount';
 
+let isHandledPush = false;
 const deviceWin = Dimensions.get('window');
 const stylesContainers = {
   containerStyle: {
@@ -45,6 +47,35 @@ class HoldList extends Component {
       })
       .catch(() => {});
   }
+
+  componentDidMount() {
+    // Handle notifications that are received or selected while the app
+    // is open. If the app was closed and then opened by tapping the
+    // notification (rather than just tapping the app icon to open it),
+    // this function will fire on the next tick after the app starts
+    // with the notification data.
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
+  }
+
+  _handleNotification = notification => {
+    if (notification.origin === 'received') {
+      // console.log('received push notification below = ');
+      // console.log(notification.data);
+      isHandledPush = false;
+    } else if (notification.origin === 'selected') {
+      // console.log(`selected push notification = ${  notification.data}`);
+      const { classesList } = this.props;
+      // eslint-disable-next-line
+      classesList.map(item => {
+        if (item.id === notification.data.classId && !isHandledPush) {
+          isHandledPush = true;
+          this.showTimeLogView(item);
+        }
+      });
+    }
+  };
 
   logout() {
     SecureStore.deleteItemAsync('userInfo');
@@ -140,19 +171,21 @@ class HoldList extends Component {
             />
           </View>
         </Content>
-        <BottomFooter Id="2" />
+        <BottomFooter Id="2" UserInfo={this.props} />
       </ImageBackground>
     );
   }
 }
 
-const mapStateToProps = ({ classesReducer }) => {
+const mapStateToProps = ({ classesReducer, accountReducer }) => {
   const { classesList } = classesReducer;
-  return { classesList };
+  const { email, password } = accountReducer;
+  return { classesList, email, password };
 };
 
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators(Classes, dispatch)
+  action: bindActionCreators(Classes, dispatch),
+  account: bindActionCreators(Account, dispatch)
 });
 
 export default connect(

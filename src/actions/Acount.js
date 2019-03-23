@@ -16,6 +16,26 @@ export const oldPasswordError = value => ({
   type: ActionTypes.RESET_FORM_CHANGED,
   payload: value
 });
+export const logout = ({ email, password, token }) => () => {
+  // dispatch
+  BaseApi.post(
+    ROOT_URL + REST_APIs.Account.LogOff,
+    {
+      UserName: email.trim(),
+      Password: password,
+      token
+    },
+    response => {
+      const baseModel = response;
+      console.log(response);
+      if (!baseModel.success) {
+        ToastMessage(baseModel.message, 'danger');
+      } else {
+        console.log('logtout');
+      }
+    }
+  );
+};
 export const login = ({ email, password, token }) => () => {
   // dispatch
   BaseApi.post(

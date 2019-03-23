@@ -4,7 +4,7 @@ export const Config = {
     Account: {
       Login: 'api/Account/TeacherLogin',
       ResetPassword: 'api/User/UpdatePassword',
-      LogOff: 'Account/Logoff'
+      LogOff: 'api/Account/TeacherLogout'
     },
     Classes: {
       Get: 'api/Classes/GetTeacherClasses',

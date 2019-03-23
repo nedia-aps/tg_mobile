@@ -6,6 +6,14 @@ import { Actions } from 'react-native-router-flux';
 
 class BottomFooter extends Component {
   logout() {
+    const { UserInfo } = this.props;
+    const { email, password, account } = UserInfo;
+    console.log('logoff....');
+    account.logout({
+      email,
+      password,
+      token: 'no token'
+    });
     SecureStore.deleteItemAsync('userInfo');
     Actions.Login({ type: 'reset' });
   }
